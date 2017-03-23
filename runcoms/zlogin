@@ -17,7 +17,13 @@
 # Print a random, hopefully interesting, adage.
 if (( $+commands[fortune] )); then
   if [[ -t 0 || -t 1 ]]; then
-    fortune -s
+    if (( $+commands[cowsay] )); then
+      if [[ -t 0 || -t 1 ]]; then
+        fortune -s | cowsay -f $(ls /usr/share/cowsay/cows/ | shuf -n1)
+      fi
+    else
+      fortune -s
+    fi
     print
   fi
 fi
