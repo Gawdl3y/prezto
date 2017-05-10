@@ -11,7 +11,17 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
-alias fuck="thefuck"
-alias damn="thefuck"
-alias dammit="thefuck"
-alias shit="thefuck"
+fuck () {
+  TF_PREVIOUS=$(fc -ln -1 | tail -n 1);
+  TF_CMD=$(
+    TF_ALIAS=fuck
+    TF_SHELL_ALIASES=$(alias)
+    PYTHONIOENCODING=utf-8
+    thefuck $TF_PREVIOUS THEFUCK_ARGUMENT_PLACEHOLDER $*
+  ) && eval $TF_CMD;
+  test -n "$TF_CMD" && print -s $TF_CMD
+}
+
+alias damn="fuck"
+alias dammit="fuck"
+alias shit="fuck"
